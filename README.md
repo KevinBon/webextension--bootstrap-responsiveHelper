@@ -1,0 +1,1 @@
+# webextension--bootstrap-responsiveHelper
