@@ -4,7 +4,7 @@ Show the bootstrap grid class currently active (XS, SM, MD, LG).
 
 # Demo
 
-![Demo](https://github.com/KevinBon/webextension--bootstrap-responsiveHelper/master/screenshots/demo.gif)
+![Demo](https://raw.githubusercontent.com/KevinBon/webextension--bootstrap-responsiveHelper/master/screenshots/demo.gif)
 
 # Install
 ## Firefox
