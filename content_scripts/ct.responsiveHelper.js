@@ -26,7 +26,7 @@
       resizeTimeout = setTimeout(function() {
         resizeTimeout = null;
         sendMessage();
-       // The actualResizeHandler will execute at a rate of 15fps
+       // Will execute at a rate of 15fps
        }, 66);
     }
   }
