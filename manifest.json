@@ -16,12 +16,9 @@
 
   "permissions": [
     "activeTab",
-    "tabs"
+    "tabs",
+    "storage"
   ],
-
-  "background": {
-    "scripts": ["background/bg.responsiveHelper.js"]
-  },
 
   "page_action": {
     "default_icon": "icons/icon.png",
@@ -32,8 +29,17 @@
     "icons/size_lg.svg",
     "icons/size_md.svg",
     "icons/size_sm.svg",
-    "icons/size_xs.svg"
+    "icons/size_xs.svg",
+    "icons/non-active.svg"
   ],
+
+  "options_ui": {
+    "page": "options/options.html"
+  },
+
+  "background": {
+    "scripts": ["background/bg.responsiveHelper.js"]
+  },
 
   "content_scripts": [
     {
