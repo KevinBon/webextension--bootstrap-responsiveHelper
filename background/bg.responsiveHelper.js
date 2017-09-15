@@ -30,16 +30,16 @@ function updateIcon(params) {
     }
     icon = '/icons/non-active.png';
     title += ' (Bootstrap is not detected)'
-  } else if (params.viewportWidth < 768) {
-    icon = '/icons/size_xs.svg';
-  } else if (params.viewportWidth >= 1200) {
-    icon = '/icons/size_lg.svg';
-  } else if (params.viewportWidth >= 992) {
-    icon = '/icons/size_md.svg';
-  } else if (params.viewportWidth >= 768) {
-    icon = '/icons/size_sm.svg';
+  // } else if (params.viewportWidth < 768) {
+  //   icon = '/icons/size_xs.svg';
+  // } else if (params.viewportWidth >= 1200) {
+  //   icon = '/icons/size_lg.svg';
+  // } else if (params.viewportWidth >= 992) {
+  //   icon = '/icons/size_md.svg';
+  // } else if (params.viewportWidth >= 768) {
+  //   icon = '/icons/size_sm.svg';
   } else {
-    return;
+    icon = `/icons/size_${params.responsiveClass}.svg`;
   }
   browser.pageAction.show(params.tabId);
   browser.pageAction.setIcon({
@@ -57,7 +57,7 @@ function onContentScriptNotification(message, context) {
     .then(checkStoredSettings)
     .then((storedSettings) => updateIcon({
       bootstrapActive: message.bootstrapActive,
-      viewportWidth: message.viewportWidth,
+      responsiveClass: message.responsiveClass,
       tabId: context.tab.id,
       storedSettings: storedSettings
     }))
