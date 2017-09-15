@@ -30,14 +30,6 @@ function updateIcon(params) {
     }
     icon = '/icons/non-active.png';
     title += ' (Bootstrap is not detected)'
-  // } else if (params.viewportWidth < 768) {
-  //   icon = '/icons/size_xs.svg';
-  // } else if (params.viewportWidth >= 1200) {
-  //   icon = '/icons/size_lg.svg';
-  // } else if (params.viewportWidth >= 992) {
-  //   icon = '/icons/size_md.svg';
-  // } else if (params.viewportWidth >= 768) {
-  //   icon = '/icons/size_sm.svg';
   } else {
     icon = `/icons/size_${params.responsiveClass}.svg`;
   }
