@@ -26,6 +26,7 @@
   },
 
   "web_accessible_resources": [
+    "icons/size_xl.svg",
     "icons/size_lg.svg",
     "icons/size_md.svg",
     "icons/size_sm.svg",

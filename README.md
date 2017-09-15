@@ -1,6 +1,6 @@
 # webextension--bootstrap-responsiveHelper
 
-Show the bootstrap grid class currently active (XS, SM, MD, LG).
+Show the bootstrap grid class currently active (XS, SM, MD, LG, XL).
 
 # Demo
 
@@ -9,3 +9,10 @@ Show the bootstrap grid class currently active (XS, SM, MD, LG).
 # Install
 ## Firefox
 https://addons.mozilla.org/en-US/firefox/addon/bootstrap-responsive-helper/
+
+# Bootstrap Compatibility
+
+| Version       | Result        |
+| ------------- |:-------------:|
+| 4.0.0-beta    | :heavy_check_mark: |
+| 3.3.x         | :heavy_check_mark: |

@@ -8,8 +8,6 @@
 
       text {
         font-family: 'Roboto', sans-serif;
-        <!-- letter-spacing: 2em; -->
-        <!-- font-weight: bold; -->
         font-size: 9px;
         fill: #00c0ef;
       }
