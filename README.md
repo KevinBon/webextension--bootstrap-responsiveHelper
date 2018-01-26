@@ -15,6 +15,7 @@ https://addons.mozilla.org/en-US/firefox/addon/bootstrap-responsive-helper/
 | Version       | Result             |
 | ------------- |:------------------:|
 | 4 Alpha 2     | :no_entry_sign:    |
-| 4.0.0-beta    | :heavy_check_mark: |
+| 4 Alpha 6     | :heavy_check_mark: |
+| 4 Beta        | :heavy_check_mark: |
 | 4.0.0         | :heavy_check_mark: |
 | 3.3.x         | :heavy_check_mark: |
