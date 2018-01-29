@@ -20,19 +20,17 @@
     "storage"
   ],
 
+  "browser_action": {
+    "browser_style": true,
+    "default_area": "bt-responsiveHelper",
+    "default_icon": "icons/non-active.svg",
+    "default_title": "Bootstrap - Responsible Helper"
+  },
+
   "page_action": {
     "default_icon": "icons/icon.png",
     "browser_style": true
   },
-
-  "web_accessible_resources": [
-    "icons/size_xl.svg",
-    "icons/size_lg.svg",
-    "icons/size_md.svg",
-    "icons/size_sm.svg",
-    "icons/size_xs.svg",
-    "icons/non-active.svg"
-  ],
 
   "options_ui": {
     "page": "options/options.html"

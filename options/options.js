@@ -1,12 +1,33 @@
-const hideIconWhenNonActiveEl = document.querySelector('#hideIconWhenNonActive');
-const valFormater = {
-  bool: function(el) {
-    return Boolean(el.checked);
+const settings = {
+  hideIconWhenNonActive: {
+    el: document.getElementById('hideIconWhenNonActive'),
+    set: function (val) { this.el.checked = val },
+    get: function () { return Boolean(this.el.checked) },
   },
-};
-const setElementValue = {
-  bool: function(el, val) {
-    return el.checked = val;
+  xs: {
+    el: document.getElementById('xs'),
+    set: function (val) { this.el.value = val },
+    get: function () { return String(this.el.value) },
+  },
+  sm: {
+    el: document.getElementById('sm'),
+    set: function (val) { this.el.value = val },
+    get: function () { String(this.el.value) },
+  },
+  md: {
+    el: document.getElementById('md'),
+    set: function (val) { this.el.value = val },
+    get: function () { return String(this.el.value) },
+  },
+  lg: {
+    el: document.getElementById('lg'),
+    set: function (val) { this.el.value = val },
+    get: function () { return String(this.el.value) },
+  },
+  xl: {
+    el: document.getElementById('xl'),
+    set: function (val) { this.el.value = val },
+    get: function () { return String(this.el.value) },
   },
 };
 
@@ -15,28 +36,37 @@ function onError(e) {
 }
 
 function initUi() {
-  browser.storage.local.get()
-    .then((res) => {
-      for (let key of Object.keys(res)) {
-        let el = document.querySelector(`form [data-settingKey=${key}]`);
-        const type = el.getAttribute('data-settingType');
-        setElementValue[type](el, res[key]);
-      }
-      hideIconWhenNonActiveEl.checked = document.querySelector();
-    }, onError);
-}
+  return new Promise((resolve, reject) => {
+    browser.storage.local.get()
+      .then((res) => {
+        // let cfg = Object.assign({}, res);
+        for (let key of Object.keys(settings)) {
+          // const val = !(key in res) ? settings[key].defaultValue : res[key];
+          // cfg[key] = val;
+          settings[key].set(res[key]);
+        }
+        // browser.storage.local.set(cfg).then(resolve, onError);
+      }, reject);
 
-function getFormatedVal(el, type) {
-  return valFormater[type](el);
+  });
 }
 
 function onChange(e) {
-  const key = e.currentTarget.getAttribute('data-settingKey');
-  const type = e.currentTarget.getAttribute('data-settingType');
-  const newSettings = {};
-  newSettings[key] = getFormatedVal(e.currentTarget, type);
-  browser.storage.local.set(newSettings).then(null, onError);
+  const key = e.currentTarget.id;
+  browser.storage.local.get()
+  .then((res) => {
+    res[key] = settings[key].get();
+    browser.storage.local.set(res).then(null, onError);
+    }, onError);
 }
 
-initUi();
-hideIconWhenNonActiveEl.addEventListener('change', onChange)
+function initListeners() {
+  for (let key of Object.keys(settings)) {
+    settings[key].el.addEventListener('change', onChange);
+  }
+}
+
+initUi()
+  .then(initListeners)
+  .catch(onError)
+;
