@@ -1,7 +1,7 @@
 const TITLE = 'Bootstrap - Responsible Helper';
 
 const defaultSettings = {
-  hideIconWhenNonActive: true,
+  hideExtensionIcon: false,
   xs: '#dd4b39',
   sm: '#f39c12',
   md: '#00c0ef',
@@ -27,28 +27,29 @@ function checkStoredSettings(storedSettings) {
 }
 
 function updateIcon(params) {
-  let icon = null;
-  let title = TITLE;
-  if (!params.responsiveClass) {
-    if (params.storedSettings.hideIconWhenNonActive) {
-      browser.browserAction.disable(params.tabId);
-      return;
-    }
-    title += ' (Bootstrap is not detected)'
+  if (params.storedSettings.hideExtensionIcon) {
+    browser.browserAction.setIcon({
+      path: 'icons/icon-transparent.png',
+      tabId: params.tabId
+    })
   }
-  let text = String(params.responsiveClass).toUpperCase() || 'N/A';
+  if (!params.responsiveClass) {
+    browser.browserAction.disable(params.tabId);
+    return;
+  }
+  const text = String(params.responsiveClass).toUpperCase() || '?';
+  const color = params.storedSettings[params.responsiveClass] || '#000000'
   browser.browserAction.enable(params.tabId);
+  browser.browserAction.setBadgeBackgroundColor({
+    color: color,
+  });
   browser.browserAction.setBadgeText({
     tabId: params.tabId,
     text: text,
   });
-  browser.browserAction.setBadgeBackgroundColor({
-    color: params.storedSettings[params.responsiveClass] || '#fff' },
-  );
-  
   browser.browserAction.setTitle({
     tabId: params.tabId,
-    title: title,
+    title: TITLE,
   });
 }
 

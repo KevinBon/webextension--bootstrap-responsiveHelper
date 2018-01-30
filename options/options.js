@@ -1,6 +1,15 @@
+const defaultSettings = {
+  hideExtensionIcon: false,
+  xs: '#dd4b39',
+  sm: '#f39c12',
+  md: '#00c0ef',
+  lg: '#0073b7',
+  xl: '#800080',
+};
+
 const settings = {
-  hideIconWhenNonActive: {
-    el: document.getElementById('hideIconWhenNonActive'),
+  hideExtensionIcon: {
+    el: document.getElementById('hideExtensionIcon'),
     set: function (val) { this.el.checked = val },
     get: function () { return Boolean(this.el.checked) },
   },
@@ -39,13 +48,10 @@ function initUi() {
   return new Promise((resolve, reject) => {
     browser.storage.local.get()
       .then((res) => {
-        // let cfg = Object.assign({}, res);
         for (let key of Object.keys(settings)) {
-          // const val = !(key in res) ? settings[key].defaultValue : res[key];
-          // cfg[key] = val;
           settings[key].set(res[key]);
         }
-        // browser.storage.local.set(cfg).then(resolve, onError);
+        resolve();
       }, reject);
 
   });
@@ -60,13 +66,38 @@ function onChange(e) {
     }, onError);
 }
 
+function resetOptionsToDefault() {
+  browser.storage.local.set(defaultSettings)
+    .then(() => {
+      removeListeners();
+      start();
+    })
+    .catch(onError);
+}
+
+function onResetOptions() {
+  if (window.confirm("Clicking `Ok` will reset the options to default.")) resetOptionsToDefault();
+}
+
 function initListeners() {
   for (let key of Object.keys(settings)) {
     settings[key].el.addEventListener('change', onChange);
   }
+  document.getElementById('resetOptions').addEventListener('click', onResetOptions);
 }
 
-initUi()
-  .then(initListeners)
-  .catch(onError)
-;
+function removeListeners() {
+  for (let key of Object.keys(settings)) {
+    settings[key].el.removeEventListener('change', onChange);
+  }
+  document.getElementById('resetOptions').removeEventListener('click', onResetOptions);
+}
+
+function start() {
+  initUi()
+    .then(initListeners)
+    .catch(onError)
+  ;
+}
+start();
+

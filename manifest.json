@@ -21,20 +21,18 @@
   ],
 
   "browser_action": {
-    "browser_style": true,
-    "default_area": "bt-responsiveHelper",
-    "default_icon": "icons/non-active.svg",
+    "default_area": "tabstrip",
+    "default_icon": "icons/icon-light.png",
     "default_title": "Bootstrap - Responsible Helper"
-  },
-
-  "page_action": {
-    "default_icon": "icons/icon.png",
-    "browser_style": true
   },
 
   "options_ui": {
     "page": "options/options.html"
   },
+
+  "web_accessible_resources": [
+    "icons/icon-transparent.png"
+  ],
 
   "background": {
     "scripts": ["background/bg.responsiveHelper.js"]
