@@ -10,11 +10,45 @@
     <form>
       <section>
         <div class="title">General</div>
-        <!-- hideIconWhenNonActive -->
-        <label>
-          Hide the icon when bootstrap is not detected
-          <input type="checkbox" checked="false" id="hideIconWhenNonActive" data-settingKey="hideIconWhenNonActive" data-settingType="bool"/>
-        </label>
+        <div>
+          <label>
+            Hide the extension icon
+            <input type="checkbox" id="hideExtensionIcon"/>
+          </label>
+        </div>
+        <div class="title">Theming</div>
+        <div>
+          <label>
+            <span class="label">XS</span>
+            <input type="color" id="xs"/>
+          </label>
+        </div>
+        <div>
+          <label>
+            <span class="label">SM</span>
+            <input type="color" id="sm"/>
+          </label>
+        </div>
+        <div>
+          <label>
+            <span class="label">MD</span>
+            <input type="color" id="md"/>
+          </label>
+        </div>
+        <div>
+          <label>
+            <span class="label">LG</span>
+            <input type="color" id="lg"/>
+          </label>
+        </div>
+        <div>
+          <label>
+            <span class="label">XL (v4)</span>
+            <input type="color" id="xl"/>
+          </label>
+        </div>
+        <div class="title">Actions</div>
+        <button id="resetOptions" type="button">Reset options</button>
       </section>
     </form>
     <script src="options.js"></script>

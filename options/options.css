@@ -10,3 +10,11 @@ body {
   font-size: 1.2em;
   margin-bottom: 0.5em;
 }
+.title:not(:first-child) {
+  margin-top: 1em;
+}
+
+.label {
+  min-width: 150px;
+  display: inline-block;
+}

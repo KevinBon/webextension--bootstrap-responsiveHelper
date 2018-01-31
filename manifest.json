@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "bootstrap-responsiveHelper",
   "description": "Show the bootstrap grid class currently active (XS, SM, MD, LG)",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "homepage_url": "https://github.com/KevinBon/webextension--bootstrap-responsiveHelper",
 
   "developer": {
@@ -20,23 +20,19 @@
     "storage"
   ],
 
-  "page_action": {
-    "default_icon": "icons/icon.png",
-    "browser_style": true
+  "browser_action": {
+    "default_area": "tabstrip",
+    "default_icon": "icons/icon-light.png",
+    "default_title": "Bootstrap - Responsible Helper"
   },
-
-  "web_accessible_resources": [
-    "icons/size_xl.svg",
-    "icons/size_lg.svg",
-    "icons/size_md.svg",
-    "icons/size_sm.svg",
-    "icons/size_xs.svg",
-    "icons/non-active.svg"
-  ],
 
   "options_ui": {
     "page": "options/options.html"
   },
+
+  "web_accessible_resources": [
+    "icons/icon-transparent.png"
+  ],
 
   "background": {
     "scripts": ["background/bg.responsiveHelper.js"]

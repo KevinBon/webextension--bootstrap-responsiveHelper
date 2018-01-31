@@ -1,6 +1,12 @@
 const TITLE = 'Bootstrap - Responsible Helper';
+
 const defaultSettings = {
-  hideIconWhenNonActive: true,
+  hideExtensionIcon: false,
+  xs: '#dd4b39',
+  sm: '#f39c12',
+  md: '#00c0ef',
+  lg: '#0073b7',
+  xl: '#800080',
 };
 
 function onError(e) {
@@ -21,34 +27,27 @@ function checkStoredSettings(storedSettings) {
 }
 
 function updateIcon(params) {
-  let icon = null;
-  let title = TITLE;
-  if (!params.bootstrapActive) {
-    if (params.storedSettings.hideIconWhenNonActive) {
-      browser.pageAction.hide(params.tabId);
-      return;
-    }
-    icon = '/icons/non-active.png';
-    title += ' (Bootstrap is not detected)'
-  // } else if (params.viewportWidth < 768) {
-  //   icon = '/icons/size_xs.svg';
-  // } else if (params.viewportWidth >= 1200) {
-  //   icon = '/icons/size_lg.svg';
-  // } else if (params.viewportWidth >= 992) {
-  //   icon = '/icons/size_md.svg';
-  // } else if (params.viewportWidth >= 768) {
-  //   icon = '/icons/size_sm.svg';
-  } else {
-    icon = `/icons/size_${params.responsiveClass}.svg`;
-  }
-  browser.pageAction.show(params.tabId);
-  browser.pageAction.setIcon({
-    tabId: params.tabId,
-    path: icon
+  browser.browserAction.setIcon({
+    path: params.storedSettings.hideExtensionIcon ? 'icons/icon-transparent.png' : 'icons/icon-light.png',
+    tabId: params.tabId
   });
-  browser.pageAction.setTitle({
+  if (!params.responsiveClass) {
+    browser.browserAction.disable(params.tabId);
+    return;
+  }
+  const text = String(params.responsiveClass).toUpperCase() || '?';
+  const color = params.storedSettings[params.responsiveClass] || '#000000'
+  browser.browserAction.enable(params.tabId);
+  browser.browserAction.setBadgeBackgroundColor({
+    color: color,
+  });
+  browser.browserAction.setBadgeText({
     tabId: params.tabId,
-    title: title
+    text: text,
+  });
+  browser.browserAction.setTitle({
+    tabId: params.tabId,
+    title: TITLE,
   });
 }
 

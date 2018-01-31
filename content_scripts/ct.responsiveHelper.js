@@ -1,6 +1,6 @@
 (function() {
   var $ = window.wrappedJSObject.$;
-  var btVersion = null;
+  let btVersion = null;
   var $domContainer = null;
 
   /**
@@ -65,7 +65,7 @@
   };
 
   function isBtActive() {
-    return btVersion !== null;
+    return btVersion != null;
   }
 
   function extractMajorVersion(version = '') {
@@ -121,7 +121,6 @@
 
   function sendMessage() {
     browser.runtime.sendMessage({
-      bootstrapActive: isBtActive(),
       responsiveClass: getResponsiveClass()
     });
   }
@@ -141,6 +140,7 @@
     }
   }
   btVersion = getBootstrapVersion();
+  console.log('bt:version', btVersion);
   if (isBtActive()) {
     $domContainer = insertDom();
   }
