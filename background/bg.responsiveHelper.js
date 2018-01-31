@@ -27,12 +27,10 @@ function checkStoredSettings(storedSettings) {
 }
 
 function updateIcon(params) {
-  if (params.storedSettings.hideExtensionIcon) {
-    browser.browserAction.setIcon({
-      path: 'icons/icon-transparent.png',
-      tabId: params.tabId
-    })
-  }
+  browser.browserAction.setIcon({
+    path: params.storedSettings.hideExtensionIcon ? 'icons/icon-transparent.png' : 'icons/icon-light.png',
+    tabId: params.tabId
+  });
   if (!params.responsiveClass) {
     browser.browserAction.disable(params.tabId);
     return;
