@@ -91,7 +91,7 @@
       console.warn(`version ${btVersion} not handled`);
       return null;
     }
-    var html = `<div class="ff-ext--bootstrapResponsiveHelper" style="width: 0px; height: 0px;">`;
+    var html = `<div class="ff-ext--bootstrapResponsiveHelper" style="width: 100%; height: 0px;">`;
     const btTestedVersion = btClassesByVersion[btVersion];
     html += btTestedVersion.map(btCls => `<div class="${btCls.cls}"></div>`).join('');
     html += '</div>';
