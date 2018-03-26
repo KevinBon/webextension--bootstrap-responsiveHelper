@@ -1,131 +1,75 @@
 (function() {
-  var $ = window.wrappedJSObject.$;
-  let btVersion = null;
-  var $domContainer = null;
+  const CONTAINER_CLS = 'ff-ext--bootstrapResponsiveHelper';
+  const CONTAINER_SELECTOR = `.${CONTAINER_CLS}`;
+  const ATTR_TAG = 'attr-tag';
+  const ATTR_VERSION = 'attr-version';
 
-  /**
-   * List of known bt plugins
-   */
-  const btPlugins = [
-    'alert',
-    'button',
-    'carousel',
-    'collapse',
-    'dropdown',
-    'modal',
-    'scrollSpy',
-    'tab',
-    'tooltip',
-    'popover',
-    'affix', // v3
-  ];
-
-  const btClassesByVersion = {
-    3:  [
-      {
-        size: 'xs',
-        cls: 'visible-xs-block',
-      },
-      {
-        size: 'sm',
-        cls: 'visible-sm-block',
-      },
-      {
-        size: 'md',
-        cls: 'visible-md-block',
-      },
-      {
-        size: 'lg',
-        cls: 'visible-lg-block',
-      },
-    ],
-    // Order matter!!
-    4:  [
-      {
-        size: 'xl',
-        cls: 'd-none d-xl-block',
-      },
-      {
-        size: 'lg',
-        cls: 'd-none d-lg-block',
-      },
-      {
-        size: 'md',
-        cls: 'd-none d-md-block',
-      },
-      {
-        size: 'sm',
-        cls: 'd-none d-sm-block',
-      },
-      {
-        size: 'xs',
-        cls: 'd-none d-block',
-      }
-    ]
-  };
-
-  function isBtActive() {
-    return btVersion != null;
-  }
-
-  function extractMajorVersion(version = '') {
-    return parseInt(version.split('.')[0], 10);
-  }
-
-  function getBootstrapVersion() {
-    try {
-      for (let pluginName of btPlugins) {
-        if (!(pluginName in $.fn)) continue;
-        return extractMajorVersion($.fn[pluginName].Constructor.VERSION);
-      }
-    } catch (error) {
+  function removeOldDOM() {
+    const oldContainer = document.querySelector(CONTAINER_SELECTOR);
+    if (oldContainer) {
+      oldContainer.remove();
     }
-    return null;
   }
 
-  function insertDom() {
-    if (!isBtActive()) {
-      return null;
-    }
-    if (!(btVersion in btClassesByVersion)) {
-      console.warn(`version ${btVersion} not handled`);
-      return null;
-    }
-    var html = `<div class="ff-ext--bootstrapResponsiveHelper" style="width: 100%; height: 0px;">`;
-    const btTestedVersion = btClassesByVersion[btVersion];
-    html += btTestedVersion.map(btCls => `<div class="${btCls.cls}"></div>`).join('');
-    html += '</div>';
-    $container = $(html);
-    $(document.body).append($container);
-    return $container;
+  function insertDOM() {
+    var elements = [
+      { tag: 'lg', version: '3', cls: 'visible-lg-block' },
+      { tag: 'md', version: '3', cls: 'visible-md-block' },
+      { tag: 'sm', version: '3', cls: 'visible-sm-block' },
+      { tag: 'xs', version: '3', cls: 'visible-xs-block' },
+      { tag: 'xl', version: '4', cls: 'd-none d-xl-block' },
+      { tag: 'lg', version: '4', cls: 'd-none d-lg-block' },
+      { tag: 'md', version: '4', cls: 'd-none d-md-block' },
+      { tag: 'sm', version: '4', cls: 'd-none d-sm-block' },
+      { tag: 'xs', version: '4', cls: 'd-none d-block' },
+    ];
+
+    var container = document.createElement('div');
+    container.className = CONTAINER_CLS;
+    container.style.width = '100%';
+    container.style.height = 0;
+    elements.forEach(({ tag, version, cls }) => {
+      const element = document.createElement('div');
+      element.className = cls;
+      element.setAttribute(ATTR_TAG, tag);
+      element.setAttribute(ATTR_VERSION, version);
+      container.append(element);
+    })
+    document.body.append(container);
   }
 
-  function isActive(cls, visible) {
-    return $(`.${cls}`, $container).is(visible ? ':visible' : ':hidden');
-  }
-
-  function clsToSelector(cls) {
-    return cls.split(' ').map(cls => `.${cls}`).join('');
-  }
+  const isActive = (computedStyle) => computedStyle['box-sizing'] === 'border-box' && computedStyle.display === 'block';
 
   function getResponsiveClass() {
-    if (!isBtActive()) {
-      return null;
+    const children = Array.from(window.document.querySelector(CONTAINER_SELECTOR).children);
+    let lastActive = null;
+    let current = {};
+    for (let child of children) {
+      const computedStyle = window.getComputedStyle(child, null);
+      current = {
+        tag: child.getAttribute(ATTR_TAG),
+        version: child.getAttribute(ATTR_VERSION),
+      };
+      if (lastActive) {
+        if (lastActive.version !== current.version || current.version === '4' ? isActive(computedStyle) : !isActive(computedStyle)) {
+          return lastActive.tag;
+        }
+      } else if (isActive(computedStyle)) {
+        lastActive = current;
+        continue;
+      }
+      lastActive = null;
     }
-    const btTestedVersion = btClassesByVersion[btVersion];
-    for (let btCls of btTestedVersion) {
-      if ($(clsToSelector(btCls.cls), $container).is(':visible')) return btCls.size;
-    }
-    return null;
+    return lastActive ? lastActive.tag : null;
   }
 
   function sendMessage() {
     browser.runtime.sendMessage({
-      responsiveClass: getResponsiveClass()
+      responsiveClass: getResponsiveClass(),
     });
   }
 
-  window.addEventListener("resize", resizeThrottler, false);
+  window.addEventListener('resize', resizeThrottler, false);
 
   // Inspired by: https://developer.mozilla.org/en-US/docs/Web/Events/resize
   var resizeTimeout;
@@ -139,10 +83,7 @@
        }, 66);
     }
   }
-  btVersion = getBootstrapVersion();
-  console.log('bt:version', btVersion);
-  if (isBtActive()) {
-    $domContainer = insertDom();
-  }
+  removeOldDOM(); 
+  insertDOM();
   sendMessage();
 }());
