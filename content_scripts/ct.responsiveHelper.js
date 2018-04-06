@@ -26,8 +26,6 @@
 
     var container = document.createElement('div');
     container.className = CONTAINER_CLS;
-    container.style.width = '100%';
-    container.style.height = 0;
     elements.forEach(({ tag, version, cls }) => {
       const element = document.createElement('div');
       element.className = cls;
