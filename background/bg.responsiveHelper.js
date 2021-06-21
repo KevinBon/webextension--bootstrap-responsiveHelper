@@ -7,6 +7,7 @@ const defaultSettings = {
   md: '#00c0ef',
   lg: '#0073b7',
   xl: '#800080',
+  xxl: '#aa0000',
 };
 
 function onError(e) {

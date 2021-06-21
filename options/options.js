@@ -5,6 +5,7 @@ const defaultSettings = {
   md: '#00c0ef',
   lg: '#0073b7',
   xl: '#800080',
+  xxl: '#aa0000',
 };
 
 const settings = {
@@ -35,6 +36,11 @@ const settings = {
   },
   xl: {
     el: document.getElementById('xl'),
+    set: function (val) { this.el.value = val },
+    get: function () { return String(this.el.value) },
+  },
+  xxl: {
+    el: document.getElementById('xxl'),
     set: function (val) { this.el.value = val },
     get: function () { return String(this.el.value) },
   },

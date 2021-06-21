@@ -18,10 +18,16 @@
       { tag: 'sm', version: '3', cls: 'visible-sm-block' },
       { tag: 'xs', version: '3', cls: 'visible-xs-block' },
       { tag: 'xl', version: '4', cls: 'd-none d-xl-block' },
-      { tag: 'lg', version: '4', cls: 'd-none d-lg-block' },
-      { tag: 'md', version: '4', cls: 'd-none d-md-block' },
-      { tag: 'sm', version: '4', cls: 'd-none d-sm-block' },
-      { tag: 'xs', version: '4', cls: 'd-none d-block' },
+      { tag: 'lg', version: '4', cls: 'd-none d-lg-block d-xl-none' },
+      { tag: 'md', version: '4', cls: 'd-none d-md-block d-lg-none' },
+      { tag: 'sm', version: '4', cls: 'd-none d-sm-block d-md-none' },
+      { tag: 'xs', version: '4', cls: 'd-block d-sm-none' },
+      { tag: 'xs', version: '5', cls: 'd-block d-sm-none' },
+      { tag: 'sm', version: '5', cls: 'd-none d-sm-block d-md-none' },
+      { tag: 'md', version: '5', cls: 'd-none d-md-block d-lg-none' },
+      { tag: 'lg', version: '5', cls: 'd-none d-lg-block d-xl-none' },
+      { tag: 'xl', version: '5', cls: 'd-none d-xl-block d-xxl-none' },
+      { tag: 'xxl', version: '5', cls: 'd-none d-xxl-block' },
     ];
 
     var container = document.createElement('div');
@@ -49,7 +55,7 @@
         version: child.getAttribute(ATTR_VERSION),
       };
       if (lastActive) {
-        if (lastActive.version !== current.version || current.version === '4' ? isActive(computedStyle) : !isActive(computedStyle)) {
+        if (lastActive.version !== current.version || current.version === '5' ? isActive(computedStyle) : !isActive(computedStyle)) {
           return lastActive.tag;
         }
       } else if (isActive(computedStyle)) {
