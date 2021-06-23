@@ -5,99 +5,132 @@ const defaultSettings = {
   md: '#00c0ef',
   lg: '#0073b7',
   xl: '#800080',
-};
+  xxl: '#aa0000',
+}
 
 const settings = {
   hideExtensionIcon: {
     el: document.getElementById('hideExtensionIcon'),
-    set: function (val) { this.el.checked = val },
-    get: function () { return Boolean(this.el.checked) },
+    set: function (val) {
+      this.el.checked = val
+    },
+    get: function () {
+      return Boolean(this.el.checked)
+    },
   },
   xs: {
     el: document.getElementById('xs'),
-    set: function (val) { this.el.value = val },
-    get: function () { return String(this.el.value) },
+    set: function (val) {
+      this.el.value = val
+    },
+    get: function () {
+      return String(this.el.value)
+    },
   },
   sm: {
     el: document.getElementById('sm'),
-    set: function (val) { this.el.value = val },
-    get: function () { String(this.el.value) },
+    set: function (val) {
+      this.el.value = val
+    },
+    get: function () {
+      String(this.el.value)
+    },
   },
   md: {
     el: document.getElementById('md'),
-    set: function (val) { this.el.value = val },
-    get: function () { return String(this.el.value) },
+    set: function (val) {
+      this.el.value = val
+    },
+    get: function () {
+      return String(this.el.value)
+    },
   },
   lg: {
     el: document.getElementById('lg'),
-    set: function (val) { this.el.value = val },
-    get: function () { return String(this.el.value) },
+    set: function (val) {
+      this.el.value = val
+    },
+    get: function () {
+      return String(this.el.value)
+    },
   },
   xl: {
     el: document.getElementById('xl'),
-    set: function (val) { this.el.value = val },
-    get: function () { return String(this.el.value) },
+    set: function (val) {
+      this.el.value = val
+    },
+    get: function () {
+      return String(this.el.value)
+    },
   },
-};
+  xxl: {
+    el: document.getElementById('xxl'),
+    set: function (val) {
+      this.el.value = val
+    },
+    get: function () {
+      return String(this.el.value)
+    },
+  },
+}
 
 function onError(e) {
-  console.error(e);
+  console.error(e)
 }
 
 function initUi() {
   return new Promise((resolve, reject) => {
-    browser.storage.local.get()
-      .then((res) => {
-        for (let key of Object.keys(settings)) {
-          settings[key].set(res[key]);
-        }
-        resolve();
-      }, reject);
-
-  });
+    browser.storage.local.get().then((res) => {
+      for (let key of Object.keys(settings)) {
+        settings[key].set(res[key])
+      }
+      resolve()
+    }, reject)
+  })
 }
 
 function onChange(e) {
-  const key = e.currentTarget.id;
-  browser.storage.local.get()
-  .then((res) => {
-    res[key] = settings[key].get();
-    browser.storage.local.set(res).then(null, onError);
-    }, onError);
+  const key = e.currentTarget.id
+  browser.storage.local.get().then((res) => {
+    res[key] = settings[key].get()
+    browser.storage.local.set(res).then(null, onError)
+  }, onError)
 }
 
 function resetOptionsToDefault() {
-  browser.storage.local.set(defaultSettings)
+  browser.storage.local
+    .set(defaultSettings)
     .then(() => {
-      removeListeners();
-      start();
+      removeListeners()
+      start()
     })
-    .catch(onError);
+    .catch(onError)
 }
 
 function onResetOptions() {
-  if (window.confirm("Clicking `Ok` will reset the options to default.")) resetOptionsToDefault();
+  if (window.confirm('Clicking `Ok` will reset the options to default.'))
+    resetOptionsToDefault()
 }
 
 function initListeners() {
   for (let key of Object.keys(settings)) {
-    settings[key].el.addEventListener('change', onChange);
+    settings[key].el.addEventListener('change', onChange)
   }
-  document.getElementById('resetOptions').addEventListener('click', onResetOptions);
+  document
+    .getElementById('resetOptions')
+    .addEventListener('click', onResetOptions)
 }
 
 function removeListeners() {
   for (let key of Object.keys(settings)) {
-    settings[key].el.removeEventListener('change', onChange);
+    settings[key].el.removeEventListener('change', onChange)
   }
-  document.getElementById('resetOptions').removeEventListener('click', onResetOptions);
+  document
+    .getElementById('resetOptions')
+    .removeEventListener('click', onResetOptions)
 }
 
 function start() {
-  initUi()
-    .then(initListeners)
-    .catch(onError)
-  ;
+  initUi().then(initListeners).catch(onError)
 }
-start();
-
+start()
